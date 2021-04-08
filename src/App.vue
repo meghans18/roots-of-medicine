@@ -33,20 +33,33 @@ export default {
 </script>
 
 <style>
+@font-face {
+  font-family: "Roboto-Light";
+  src: local("Roboto"),
+   url(./fonts/Roboto-Light.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto-Regular";
+  src: local("Roboto"),
+   url(./fonts/Roboto-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: 'ZillaSlab-Light';
+  src: url(./fonts/ZillaSlab-Light.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "ZillaSlab";
+  src: local('ZillaSlab'),
+    url(./fonts/ZillaSlab-Regular.ttf) format("truetype");
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: rgb(221, 188, 2);
 }
 </style>
