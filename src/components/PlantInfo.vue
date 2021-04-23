@@ -1,11 +1,11 @@
 <template>
 <div id="plantInfo" class="container">
-    <h1 id="display_title" style="font-family: 'ZillaSlab-Light';"></h1>
-    <em><h5 id="scientific_name" style="font-family: 'Roboto-Regular'; font-weight: 500;"></h5></em>
+    <h1 id="display_title" style="font-family: 'ZillaSlab-Light';">{{ display_title }}</h1>
+    <em><h5 id="scientific_name" style="font-family: 'Roboto-Regular'; font-weight: 500;">{{ scientific_name }}</h5></em>
     <hr>
     <br>
     <div class="row">
-        <div class="col-6"> <img id="plant_image"/> </div>
+        <div class="col-6"> <img id="plant_image" :src="plant_image"/> </div>
         <div class="col-6 text-left"> 
             <h6 class="heading">Description:</h6>
             <p id="description"></p>
@@ -29,7 +29,7 @@
         <h6 class="heading">Historic Use</h6>
         <p id="historical_text"></p>
     </div>
-    <img id="plant_virtues"/>
+    <img id="plant_virtues" :src="plant_virtues"/>
 
     <br>
     <br>
@@ -45,58 +45,17 @@
 <script>
 export default {
     name: 'PlantInfo',
-    data() {
-        return {
-            page: "",
-            loading: true,
-            links: []
-        }
-    },
+    props: ['display_title', 'scientific_name', 'plant_image', 'links', 'description', 'search_strat', 'historical_text', 'plant_virtues', 'references'],
     methods: {
         redirect(url) {
             window.location.href = url
-        },
-        fillInfo() {
-            const plantSlug = this.$route.params.slug
-            this.$http.get(`wp/v2/plant?slug=${plantSlug}`).then(response => {
-                let obj = response.body[0]
-
-                //regex stuff to help making buttons
-                let otherResources = obj['other_resources']
-
-                const regex = /<p>(.+?)<\/p>/g;
-                const regex2 = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/g;
-                const regex3 = /(<([^>]+)>)/ig;
-
-                const found = otherResources.match(regex);
-                const found2 = otherResources.match(regex2)
-                let found3 = []
-                for (let i = 0; i < found2.length; i++) {
-                    found3.push(found[i].replace(regex3, ''))
-                }
-
-                for (let i = 0; i < found2.length; i++) {
-                    this.links.push({
-                        id: i,
-                        url: found2[i],
-                        text: found3[i]
-                    })
-                }
-                //end regex stuff
-
-                document.getElementById('display_title').innerHTML = obj['display_title']
-                document.getElementById('scientific_name').innerHTML = obj['scientific_name']
-                document.getElementById('plant_image').src = obj['plant_image']['guid']
-                document.getElementById('description').innerHTML = obj['description']
-                document.getElementById('pubmed_search').innerHTML = obj['pubmed_search_strategy']
-                document.getElementById('historical_text').innerHTML = obj['historical_text']
-                document.getElementById('plant_virtues').src = obj['plant_virtues_image']['guid']
-                document.getElementById('references').innerHTML = obj['references']
-            }, error => { alert(error) })
         }
     },
-    created: function() {
-        this.fillInfo();
+    mounted: function() {
+        document.getElementById('description').innerHTML = this.description
+        document.getElementById('pubmed_search').innerHTML = this.search_strat
+        document.getElementById('historical_text').innerHTML = this.historical_text
+        document.getElementById('references').innerHTML = this.references
     }
 }
 </script>

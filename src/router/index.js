@@ -15,12 +15,14 @@ const routes = [
   {
     path: '/plant-list',
     name: 'Plant List',
-    component: PlantList
+    component: PlantList,
+    props: true
   },
   {
     path: '/plant-info/:slug',
     name: 'Plant Info',
-    component: PlantInfo
+    component: PlantInfo,
+    props: true
   },
 ]
 

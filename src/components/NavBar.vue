@@ -5,8 +5,8 @@
             <img src="@/assets/rom_logo.png" width="40%" height="40%"/>
         </div>
         <b-nav align="right" class="col-6">
-            <button class="custom-button" @click="redirect('/plant-list')">PLANT LIST</button>
-            <button class="custom-button" @click="redirect('/')">ABOUT</button>
+            <button class="custom-button" @click.prevent="redirect()">PLANT LIST</button>
+            <button class="custom-button" @click="$router.push({ path: '/' })">ABOUT</button>
             <button class="custom-button" >VISIT</button>
         </b-nav>
         </b-row>
@@ -20,9 +20,13 @@ export default {
 
     },
     methods: {
-        redirect(page) {
-            this.$router.push({ path: page })
-        }
+        redirect() {
+            let pl = []
+            this.$http.get(`wp/v2/plant`).then(response => {
+                pl = response.body
+                this.$router.push({ name: 'Plant List', params: {plantList: pl} })
+            }, error => { alert(error) })
+        },
     }
 }
 </script>
